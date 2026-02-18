@@ -1,0 +1,9 @@
+# MailMCP Server Configuration
+# Format: name host port user password
+# 
+# Example:
+# bage 185.241.43.186 38022 root yourpassword
+# ovh 51.81.223.234 38022 youruser yourpassword
+#
+# Note: This file contains sensitive information.
+# Ensure proper permissions: chmod 600 /etc/ssh-tunnel/config.conf

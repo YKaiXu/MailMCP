@@ -1,0 +1,30 @@
+# MailMCP Server Configuration
+# MailMCP 服务器配置
+#
+# Format: name host port user password_or_key_path
+# 格式: 名称 主机 端口 用户 密码或密钥路径
+#
+# The password field can be:
+# 密码字段可以是：
+#   - Plain password (not recommended)
+#   - 明文密码（不推荐）
+#   - Path to SSH private key file
+#   - SSH 私钥文件路径
+#
+# Examples / 示例:
+#
+# OVH server with SSH key
+# 使用 SSH 密钥的 OVH 服务器
+# ovh example.com 22 user /home/user/.ssh/id_rsa
+#
+# Server with password
+# 使用密码的服务器
+# bage example.com 22 root password123
+#
+# Local server (AI host)
+# 本地服务器（AI 主机）
+# local 127.0.0.1 22 root /root/.ssh/id_rsa
+#
+# Non-standard SSH port
+# 非标准 SSH 端口
+# custom 192.168.1.100 2222 admin /home/admin/.ssh/id_ed25519
