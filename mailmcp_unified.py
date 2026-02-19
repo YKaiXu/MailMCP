@@ -310,10 +310,19 @@ def get_job_output(job_id: str, lines: int = 100) -> str:
     except: return ""
 
 # ============ IP & Rate Limit ============
+def ip_in_cidr(ip, cidr):
+    if '/' not in cidr: return ip == cidr
+    import ipaddress
+    try:
+        return ipaddress.ip_address(ip) in ipaddress.ip_network(cidr, strict=False)
+    except: return False
+
 def check_ip_access(client_ip):
     if client_ip in IP_BLACKLIST: return False, "IP blacklisted"
     if IP_WHITELIST and IP_WHITELIST[0]:
-        if client_ip not in IP_WHITELIST and client_ip != "127.0.0.1":
+        for allowed in IP_WHITELIST:
+            if ip_in_cidr(client_ip, allowed.strip()): return True, "OK"
+        if client_ip != "127.0.0.1":
             return False, "IP not in whitelist"
     return True, "OK"
 
@@ -404,7 +413,10 @@ def load_token_by_value(token_value):
 # ============ Dual Auth Verification ============
 def verify_dual_auth(params, client_ip=None):
     if client_ip and IP_WHITELIST and IP_WHITELIST[0]:
-        if client_ip in IP_WHITELIST or client_ip == "127.0.0.1":
+        for allowed in IP_WHITELIST:
+            if ip_in_cidr(client_ip, allowed.strip()):
+                return True, "OK (IP whitelisted)"
+        if client_ip == "127.0.0.1":
             return True, "OK (IP whitelisted)"
     
     token = params.get("token", "")
